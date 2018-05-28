@@ -19,7 +19,7 @@ Some problems appeared during the testing time on this package :
 
 2. I can still run the workflow with my testing files and the test files of Alexis. I obtain the MGF files however they don't contain any peaklist. I have just the different informations about the MSMS spectra but no peaklist.
 
-3. We can see a good peak on m/z = 166.08 with 500<RT<516 but this peak is not conserved for the next step (MSMSacquisition). We have to find where we lost this peak which should map correctly... We have it at `xraw@msnPrecursorMz` (as MS2), then at `mpeaks@.Data` (as MS1), then at `macq@mspeaks@.Data` (as MS1), but we can't find it at `macq@header` (as MS2)...
+3. We can see a good peak on m/z = 166.08 with 500<RT<516 but this peak is not conserved for the next step (MSMSacquisition). We have to find where we lost this peak which should map correctly... We have it at xraw@msnPrecursorMz (as MS2), then at mpeaks@.Data (as MS1), then at macq@mspeaks@.Data (as MS1), but we can't find it at macq@header (as MS2)...
 
 ***
 ## Development
