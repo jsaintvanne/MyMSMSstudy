@@ -30,7 +30,3 @@ Three tools are already in studying :
   - PheNoMENal tools
 
 I built a repository for each tool wherein I will describe the advancement of study, the different problems I'm facing and the development that I can bring for it.
-
-There are also a repository for each dataset that I'm using and a README file to explain each one. Differents formats of dataset are used by chimists and we should try our workflows with the most popular of course but it could be great to have tools which can be used with all datasets possible.
-
-It should be great to also have an universal file format for all metabolomics data because each file format is a little different and need different tools to use them in one workflow.
