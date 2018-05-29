@@ -32,7 +32,9 @@ The workflow is the following :
 
 ***
 ## Problems
-I'm trying to use this package on a local Galaxy.
+I'm trying to use this package on a local Galaxy. It looks that works but some problems persist :
+- the famous pic 166.08 (`STD_MIX1_POS`) is in the raw_data object after `readMSData` function, as a MS2 precursorMZ. It is lost in the following steps for MS1 peaks cause it is not present as MS1 peak. That is strange. And that is why it can't be map in the next step (`frag4feature`).
 
 ***
 ## Development
+Galaxy has been reproducted in local to be able to make some modifications on the script.

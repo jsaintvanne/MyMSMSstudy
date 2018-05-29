@@ -1,5 +1,5 @@
 # PhenoMeNal tool
-This tool has been developed
+This tool has been developed by PhenoMeNal team. The maintainer is C.Ruttkies (https://github.com/c-ruttkies) for MetFrag and the XCMS and CAMERA pre-treatments.
 
 ***
 ## Study
@@ -15,7 +15,9 @@ Metabolite identification is a crucial step when trying to understand the course
 I'm using the Galaxy of PhenoMeNal to test my datasets and differents problems appears :
 - with the file `STD_MIX1` the function `camera-find-isotopes` doesn't work.
 - I can't find the same compund that I have on the result file of `STD_MIX1`
+- I run the function `metfrag-cli-batch` but Galaxy server can't run it... Maybe too much files in the input ??
 
 
 ***
 ## Development
+Just try the script on the PhenoMeNal Galaxy.
