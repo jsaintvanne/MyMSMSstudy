@@ -33,7 +33,19 @@ The workflow is the following :
 ***
 ## Problems
 I'm trying to use this package on a local Galaxy. It looks that works but some problems persist :
-- the famous pic 166.08 (`STD_MIX1_POS`) is in the raw_data object after `readMSData` function, as a MS2 precursorMZ. It is lost in the following steps for MS1 peaks cause it is not present as MS1 peak. That is strange. And that is why it can't be map in the next step (`frag4feature`).
+
+- About the peak 166.08 of `STD_MIX1`:
+
+  - with `readMSData` we can find 2 MS2 spectra with a precursorMZ of 166.08 and a precursorRT around 510 seconds. There is no MS1 spectra with a peak at 166.08 cause the peakpicking is not done yet (raw_data@featureData@data column precursorMZ).
+
+  - with `findChromPeaks` I can find only one peak MS1 with 166.08 as MZ and a RT around 509 (xdata@msFeatureData$chromPeaks line 2313).
+
+  - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
+
+  - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ?? There is a peak (line 477) with MZ at 166.12 and RT around 514... Possible that it is a good peak ?
+
+  - So it is an evidence that after the mapping with `frag4feature` I can't find these peaks !
+
 
 ***
 ## Development
