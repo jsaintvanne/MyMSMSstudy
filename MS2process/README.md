@@ -19,7 +19,7 @@ I didn't look at the other parts of the package yet. There are formula generatio
 
 Some problems appeared during the testing time on this package :
 
-1. when the package is installed with the tar.gz file, I can't find the scripts in my library. I find the package install but there is no scripts R in its repository  
+1. when the package is installed with the tar.gz file, I can't find the scripts in my library. I find the package install but there is no scripts R in its repository. SOLUTION : have to source the different R scripts before running them each time I modify something.
 
 2. I can still run the workflow with my testing files and the test files of Alexis. I obtain the MGF files however they don't contain any peaklist. I have just the different informations about the MSMS spectra but no peaklist.
 
@@ -29,4 +29,4 @@ Some problems appeared during the testing time on this package :
 ***
 ## Development
 I would like to access the R scripts of the package to be able to modify them and try to find why it can't work. (problem 1)  
-I start a script which should be a workflow for a mzML file wherein we want to find the compounds. To do it, I use the MSMSacquisition, fuse and toMgf functions. I don't know the class system in R, so I'm trying to use it with only functions without classes... I don't know if it is possible or not.
+To face the problem 1, I can source each R scripts each time I modified one of them and run again the workflow manually on R. I can do it with a new function name `sourceDir` whith which I can source all scripts in my directory.

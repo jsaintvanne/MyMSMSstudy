@@ -42,7 +42,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
 
   - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
 
-  - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ?? There is a peak (line 477) with MZ at 166.12 and RT around 514... Possible that it is a good peak ?
+  - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ?? 
 
   - So it is an evidence that after the mapping with `frag4feature` I can't find these peaks !
 
