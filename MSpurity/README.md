@@ -94,14 +94,14 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   ```R
   > pa@puritydf[grep("^166.08",pa@puritydf[,"precursorMZ"],ignore.case=FALSE),]
         pid fileid seqNum precursorIntensity precursorMZ precursorRT
-919 919      1   1104           13453806    166.0863    978.9494
-954 954      1   1146            6129614    166.0863   1015.6266
+  919 919      1   1104           13453806    166.0863    978.9494
+  954 954      1   1146            6129614    166.0863   1015.6266
         precursorScanNum   id        filename precursorNearest seqNum      aMz
-919             2202 1104 dataset_831.dat             1103   1104 166.0863
-954             2286 1146 dataset_831.dat             1145   1146 166.0867
+  919             2202 1104 dataset_831.dat             1103   1104 166.0863
+  954             2286 1146 dataset_831.dat             1145   1146 166.0867
         aPurity apkNm      iMz iPurity ipkNm inPkNm inPurity
-919       1     1 166.0863       1     1      1        1
-954       1     1 166.0867       1     1      1        1
+  919       1     1 166.0863       1     1      1        1
+  954       1     1 166.0867       1     1      1        1
   ```
   - So it is an evidence that after the mapping with `frag4feature` I can't find these peaks !
 
