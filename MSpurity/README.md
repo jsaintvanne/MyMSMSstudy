@@ -60,6 +60,8 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
                                                 spectrumId spectrum
   F1.S0919 controllerType=0 controllerNumber=1 scan=1832      919
   F1.S0954 controllerType=0 controllerNumber=1 scan=1903      954
+  ```
+  ```R 
   > raw_data@featureData@data[grep("^166.08",raw_data@featureData@data[grep("^1",raw_data@featureData@data[,"msLevel"],ignore.case=FALSE),"basePeakMZ"],ignore.case=FALSE),]
   [1] fileIdx                   spIdx                 centroided
   [4] smoothed                  seqNum                acquisitionNum
