@@ -80,7 +80,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
    > xdata@msFeatureData@.xData$chromPeaks[grep("^166.08",xdata@msFeatureData@.xData$chromPeaks[,"mz"],ignore.case=FALSE),]
               mz        mzmin        mzmax       rt    rtmin      rtmax
         166.0863     166.0862     166.0867 508.6326 490.5224   529.6350
-            into         intb         maxo       sn   sample  is_filled
+          into         intb         maxo       sn   sample  is_filled
   1.172816e+09 1.171865e+09 1.230181e+08     5984        1          0
   ```
   - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
@@ -96,9 +96,9 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
       pid fileid seqNum precursorIntensity precursorMZ precursorRT
   919 919      1   1104           13453806    166.0863    978.9494
   954 954      1   1146            6129614    166.0863   1015.6266
-      precursorScanNum   id        filename precursorNearest seqNum      aMz
-  919             2202 1104 dataset_831.dat             1103   1104 166.0863
-  954             2286 1146 dataset_831.dat             1145   1146 166.0867
+      precursorScanNum   id          filename precursorNearest seqNum      aMz
+  919             2202 1104 "dataset_831.dat"             1103   1104 166.0863
+  954             2286 1146 "dataset_831.dat"             1145   1146 166.0867
       aPurity apkNm       iMz iPurity ipkNm inPkNm inPurity
   919       1     1  166.0863       1     1      1        1
   954       1     1  166.0867       1     1      1        1
