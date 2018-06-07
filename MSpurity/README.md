@@ -85,9 +85,9 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   ```
   - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
   ```R
-  name	     namecustom	       mz	            mzmin	         mzmax
+  name	     namecustom	       mz	           mzmin	      mzmax
   "M166T511"   "M166_0863T511"   166.086266751926   166.053513151908   166.14401815256
-  rt	     rtmin	 rtmax	        npeaks      .	   peakidx
+  rt	     rtmin	 rtmax	        npeaks   .	   peakidx
   511.395444   508.63257   579.291096     3       1    c(1471, 1669, 2313)
   ```
   - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ??
