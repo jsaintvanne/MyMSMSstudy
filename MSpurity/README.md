@@ -73,7 +73,6 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   [28] spectrum
   <0 lignes> (ou 'row.names' de longueur nulle)
   ```
-
   - with `findChromPeaks` I can find only one peak MS1 with 166.08 as MZ and a RT around 509 (xdata@msFeatureData$chromPeaks line 2313).
   ```R
    > xdata@msFeatureData@.xData$chromPeaks[grep("^166.08",xdata@msFeatureData@.xData$chromPeaks[,"mz"],ignore.case=FALSE),]
@@ -82,7 +81,6 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
             into         intb         maxo       sn   sample  is_filled
 1.172816e+09 1.171865e+09 1.230181e+08     5984        1          0
   ```
-
   - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
   ```R
   name	     namecustom	    mz	             mzmin	          mzmax
@@ -90,7 +88,6 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   rt	       rtmin	   rtmax	    npeaks  .	peakidx
   511.395444   508.63257   579.291096   3       1    c(1471, 1669, 2313)
   ```
-
   - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ??
   ```R
   > pa@puritydf[grep("^166.08",pa@puritydf[,"precursorMZ"],ignore.case=FALSE),]
@@ -104,7 +101,6 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
 919       1     1 166.0863       1     1      1        1
 954       1     1 166.0867       1     1      1        1
   ```
-
   - So it is an evidence that after the mapping with `frag4feature` I can't find these peaks !
 
 
