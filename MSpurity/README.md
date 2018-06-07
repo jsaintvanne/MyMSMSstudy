@@ -61,7 +61,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   F1.S0919 controllerType=0 controllerNumber=1 scan=1832      919
   F1.S0954 controllerType=0 controllerNumber=1 scan=1903      954
   ```
-  ```R 
+  ```R
   > raw_data@featureData@data[grep("^166.08",raw_data@featureData@data[grep("^1",raw_data@featureData@data[,"msLevel"],ignore.case=FALSE),"basePeakMZ"],ignore.case=FALSE),]
   [1] fileIdx                   spIdx                 centroided
   [4] smoothed                  seqNum                acquisitionNum
@@ -81,7 +81,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
               mz        mzmin        mzmax       rt    rtmin      rtmax
         166.0863     166.0862     166.0867 508.6326 490.5224   529.6350
             into         intb         maxo       sn   sample  is_filled
-1.172816e+09 1.171865e+09 1.230181e+08     5984        1          0
+  1.172816e+09 1.171865e+09 1.230181e+08     5984        1          0
   ```
   - with `xcms-group` we can generate directly a peaklist on Galaxy. So, I can find peaks with MZ = 166.08 and RT around 511 seconds.
   ```R
