@@ -87,7 +87,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   ```R
   name	     namecustom	    mz	             mzmin	          mzmax
   "M166T511"   "M166_0863T511"   166.086266751926   166.053513151908   166.14401815256
-  rt	     rtmin	   rtmax	 npeaks  .	peakidx
+  rt	     rtmin	  rtmax	 npeaks  .	peakidx
   511.395444   508.63257   579.291096   3       1    c(1471, 1669, 2313)
   ```
   - with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ??
@@ -99,9 +99,9 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
      precursorScanNum   id        filename precursorNearest seqNum      aMz
   919             2202 1104 dataset_831.dat             1103   1104 166.0863
   954             2286 1146 dataset_831.dat             1145   1146 166.0867
-     aPurity apkNm      iMz iPurity ipkNm inPkNm inPurity
-  919       1     1 166.0863       1     1      1        1
-  954       1     1 166.0867       1     1      1        1
+      aPurity apkNm       iMz iPurity ipkNm inPkNm inPurity
+  919       1     1  166.0863       1     1      1        1
+  954       1     1  166.0867       1     1      1        1
   ```
   - So it is an evidence that after the mapping with `frag4feature` I can't find these peaks !
 
