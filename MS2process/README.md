@@ -15,15 +15,42 @@ I didn't look at the other parts of the package yet. There are formula generatio
 
 
 ***
-## Problems
+## Issues
 
-Some problems appeared during the testing time on this package :
+Some problems appeared during the testing time on this package.
 
-1. when the package is installed with the tar.gz file, I can't find the scripts in my library. I find the package install but there is no scripts R in its repository. SOLUTION : have to source the different R scripts before running them each time I modify something.
+### Installation of the package
+#### Problem
 
-2. I can still run the workflow with my testing files and the test files of Alexis. I obtain the MGF files however they don't contain any peaklist. I have just the different informations about the MSMS spectra but no peaklist.
+I have the package in the format `.tar.gz`. I can install it with the following command :
+```
+ R CMD INSTALL MS2Process.tar.gz
+```
+So, now the package is install with the `tar.gz` file. But I can't find the scripts in my library. I find the package installed but there is no scripts R in its repository.
 
-3. We can see a good peak on m/z = 166.086 with 500 < RT < 516 but this peak is not conserved during the process (MS2process) on `STD_MIX1`. We have to find where we lost this peak which should map correctly... So, we have it in `xraw@msnPrecursorMz` (as MS2 with RT = 501 and 519)
+#### Solution
+
+To facing that, I have to source the different R scripts before running them each time I modify something. To do this I found a little function that allow me to source evry MS2Process scripts in one time :
+```R
+sourceDir<-function(path,trace=TRUE,...){
+  print("MS2-classes.R :\n")
+  #this R script contains all classes and need to be source at first
+  source("./repopath/MS2-classes.R")
+  #then we can source each file one by one
+  for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
+    if(trace) cat(nm,":\n")
+	    source(file.path(path, nm), ...)
+  }
+}
+#Now, we can source our R scripts in our repo each time we have done some modifications
+sourceDir("./repopath/")
+```
+
+### About the peak 166.08 of file `STD_MIX1`
+#### Problem
+
+We are looking for a compound with a m/Z at 166.086 find as the L-phenylalanine in the result file. To start this study, we can observe on the TIC chromatogram a peak with this mass and around 500 seconds of retention time. The problem is that this peak isn't find when we process MS2Process on our file `STD_MIX1`.
+We have to find where we lost this peak which should map correctly... So, we have it in `xraw@msnPrecursorMz` (as MS2 with RT = 501 and 519)
 ```R
 > xraw@msnPrecursorMz[grep("^166.08",xraw@msnPrecursorMz,ignore.case=FALSE)]
 [1] 166.0863 166.0863
@@ -32,7 +59,7 @@ Some problems appeared during the testing time on this package :
 > xraw@msnPrecursorIntensity[grep("^166.08",xraw@msnPrecursorMz,ignore.case=FALSE)]
 [1] 13453806 6129614
 ```
-   Then in `mpeaks@.Data` (as MS1)
+Then in `mpeaks@.Data` (as MS1)
 ```R
 > mpeaks@.Data[grep("^166.08",mpeaks@.Data[,"mz"],ignore.case=FALSE),]
       mz    mzmin    mzmax       rt    rtmin    rtmax
@@ -40,7 +67,7 @@ Some problems appeared during the testing time on this package :
         into         intb         maxo   sn
 1.118349e+09 1.117974e+09 1.230181e+08 5599
 ```
-   Then in `macq@mspeaks@.Data` (as MS1)
+So, here we can easily match the first precursor with the MS peak. But when we run `MSMSacquisition` we can only obtain this `macq@mspeaks@.Data` (as MS1)
 ```R
 > macq@mspeaks@.Data[grep("^166.08",macq@mspeaks@.Data[,"mz"],ignore.case=FALSE),]
       mz    mzmin    mzmax       rt    rtmin    rtmax
@@ -48,14 +75,14 @@ Some problems appeared during the testing time on this package :
         into         intb         maxo   sn
 1.118349e+09 1.117974e+09 1.230181e+08 5599
 ```
-   But we can't find it in `macq@header` (as MS2 which match on MS)...
+And this in `macq@header` (as MS2 which match on MS)...
 ```R
 > macq@header[grep("^166.08",macq@header[,"mz"],ignore.case=FALSE),]
 [1] mz            mspeak        nspec         maxMSMSsignal rt           
 [6] group         energy       
 <0 lignes> (ou 'row.names' de longueur nulle)
 ```
-   For the first precursor it is between the range of this MS peak so it is strange that it doesn't map. For the second one, it is out of the range of the MS peak, it is quite more normal that it doesn't map. So why this precursor doesn't match with the MS peak ? The problem looks to be during the rawEIC function :
+For the first precursor it is between the range of this MS peak so it is strange that it doesn't map. For the second one, it is out of the range of the MS peak, it is quite more normal that it doesn't map. So why this precursor doesn't match with the MS peak ? The problem looks to be during the rawEIC function :
  ```R
       precMz  precInt precScan collisionEnergy msLevel   bmin   bmax precTime
 919 166.0863 13453806      185              60       2 567122 567687 500.9193
@@ -67,8 +94,11 @@ $scan
 $intensity
 [1] 0 0 0
  ```
-    We can see here that the intensity is null for scans 184, 185 and 186. I don't know how and where these intensities are found... I'm searching for them !
+We can see here that the intensity is null for scans 184, 185 and 186. I don't know how and where these intensities are found... I'm searching for them !
 
+####Solution
+
+?
 
 ***
 ## Development
