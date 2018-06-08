@@ -11,12 +11,35 @@ Metabolite identification is a crucial step when trying to understand the course
 
 
 ***
-## Problems
-I'm using the Galaxy of PhenoMeNal to test my datasets and differents problems appears :
-- with the file `STD_MIX1` the function `camera-find-isotopes` doesn't work.
-- I can't find the same compund that I have on the result file of `STD_MIX1`
-- I run the function `metfrag-cli-batch` but Galaxy server can't run it... Maybe too much files in the input ??
+## Issues
+I'm using the Galaxy of PhenoMeNal to test my datasets and differents problems appears
 
+### 1
+#### Problem
+
+with the file `STD_MIX1` the function `camera-find-isotopes` doesn't work.
+
+#### Solution
+
+?
+
+### 2
+#### Problem
+
+I can't find the same compund that I have on the result file of `STD_MIX1`
+
+#### Solution
+
+?
+
+### 3
+#### Problem
+
+I run the function `metfrag-cli-batch` but Galaxy server can't run it... Maybe too much files in the input ??
+
+#### Solution
+
+?
 
 ***
 ## Development
