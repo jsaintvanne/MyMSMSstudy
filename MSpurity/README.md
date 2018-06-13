@@ -108,8 +108,68 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
 
 #### Solution
 
-??
+Thomas Lawson has corrected his scripts to be able to run a dataset containing switch between positive and negative scans (like my dataset). So, now, with the function `assess-purity` on Galaxy, we obtain the precursor 166.08 and their good RT.
+```R
+> pa@puritydf[grep("^166.08",pa@puritydf[,"precursorMZ"],ignore.case=FALSE),]
+    pid fileid seqNum acquisitionNum precursorIntensity precursorMZ precursorRT
+919 919      1   1104           2203           13453806    166.0863    500.9193
+954 954      1   1146           2287            6129614    166.0863    519.3483
+    precursorScanNum   id        filename precursorNearest seqNum      aMz
+919             2202 1104 dataset_831.dat             1103   1104 166.0863
+954             2286 1146 dataset_831.dat             1145   1146 166.0867
+    aPurity apkNm      iMz iPurity ipkNm inPkNm inPurity
+919       1     1 166.0863       1     1      1        1
+954       1     1 166.0867       1     1      1        1
+```
+Now, we can try to match these precursors with the MS peaks found after the function `findChromPeaks`.
+```R
+> xdata@msFeatureData@.xData$chromPeaks[grep("^166.08",xdata@msFeatureData@.xData$chromPeaks[,"mz"],ignore.case=FALSE),]
+              mz        mzmin        mzmax       rt    rtmin      rtmax
+        166.0863     166.0862     166.0867 508.6326 490.5224   529.6350
+          into         intb         maxo       sn   sample  is_filled
+  1.172816e+09 1.171865e+09 1.230181e+08     5984        1          0
+```
+To do this, we use the function `frag4feature` on our local Galaxy. This function will match the precursor of MSMS scans with the MS peaks we can found. When we verify if our precursors 166.08 matched, we obtain :
+```R
+> pa@grped_df[grep("^166.08",pa@grped_df[,"precurMtchMZ"],ignore.case=FALSE),]
+   grpid       mz    mzmin    mzmax       rt    rtmin   rtmax       into
+41   378 166.0863 166.0862 166.0867 508.6326 490.5224 529.635 1172815917
+67   378 166.0863 166.0862 166.0867 508.6326 490.5224 529.635 1172815917
+         intb      maxo   sn sample is_filled  cid        filename precurMtchID
+41 1171865158 123018056 5984      1         0 2313 dataset_831.dat         1104
+67 1171865158 123018056 5984      1         0 2313 dataset_831.dat         1146
+   precurMtchRT precurMtchMZ precurMtchPPM inPurity pid
+41     500.9193     166.0863      0.222529        1 919
+67     519.3483     166.0867      2.611218        1 954
+```
+We can see that for the same MS peak, our two precursors matches. So, now, we can process the `create-msp` function on Galaxy. Then run it with MetFrag, Sirius or another one for which Thomas Lawson developed a script. We obtain these informations on the `msp` file for our precursors :
+```
+NAME: 378-1-919
+PRECURSORMZ: 166.086303710938
+Comment:
+Num Peaks: 566
+49.5019264221191	0
+49.5020904541016	0
+49.5022583007812	0
+49.5024223327637	0
+51.022144317627	0
+51.0223197937012	0
+...
+
+NAME: 378-1-954
+PRECURSORMZ: 166.086700439453
+Comment:
+Num Peaks: 535
+49.5020446777344	0
+49.5022087097168	0
+49.5023765563965	0
+49.5025405883789	0
+51.0222663879395	0
+51.0224418640137	0
+...
+```
+The name correspond to the group, then the id of the sample (here we have only one sample) and the last one is the id of the precursor.
 
 ***
 ## Development
-Galaxy has been reproducted in local to be able to make some modifications on the script.
+Galaxy has been reproducted in local to be able to make some modifications on the scripts.
