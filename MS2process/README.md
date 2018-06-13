@@ -7,7 +7,7 @@ The package has not been published yet, but some old scripts are disponible on h
 ***
 ## Study
 There is no publication for this package.
-The workflow to obtain MGF files of mapping spectra MSMS is the following :
+The workflow to obtain MGF files of mapping MSMS spectra is the following :
 
 ![Workflow MS2process](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MS2process/Workflow%20for%20MSMS%20-%20MS2process.jpg?raw=true)
 
@@ -45,6 +45,7 @@ sourceDir<-function(path,trace=TRUE,...){
 #Now, we can source our R scripts in our repo each time we have done some modifications
 sourceDir("./repopath/")
 ```
+It could be better to rebuild the package each time and reload it in R after that...?
 
 ### About the peak 166.08 of file `STD_MIX1`
 #### Problem
@@ -96,9 +97,16 @@ $intensity
  ```
 We can see here that the intensity is null for scans 184, 185 and 186. I don't know how and where these intensities are found... I'm searching for them !
 
-####Solution
+#### Solution
 
-?
+After contacting Alexis Delabrière, it is possible to pass out the restriction on differents peaks. Just passing the argument `fwhsym` to FALSE (or 0) to find our precursor matching on the MS2 peak.
+```R
+> macq <- MSMSacquisition(xraw,tolMS=0.01,peaklist = mpeaks, fwhmsym = 0.0)
+> macq@header[grep("^166.08",macq@header[,"mz"],ignore.case=FALSE),]
+          mz mspeak nspec maxMSMSsignal       rt group energy
+323 166.0863   1296     2       2902644 508.6326   323     60
+```
+So, now, the first precursor match correctly on the MS peak. Only the second precursor don't match. It is quite normal cause his RT is not between the RT range of the MS peak. To try to correct a little that, maybe it is possible to introduce a variable name `tolRT` which can tolerate a little deviation of the RT range of the MS peak trying to match with the maximum of precursors.
 
 ***
 ## Development
