@@ -258,11 +258,15 @@ Now, we can process directly on Galaxy to obtain the results. We also can select
 ## Development
 After contacting Thomas, we are convinced that some changes have to be made on msPurity and their Galaxy wrappers.
 The first change concern the inputs. Thomas just needed files containing MS and MS/MS in the same file and can run the tool with them. But a lot of chimists can't do that. They start with a MS run then they run a second one for MS/MS. So they obtain 2 files : one with MS datas and one else with MS/MS data.
+
+#### For files containing MS and MS/MS
 This modification is the harder. Where we don't really need file names, now we have to match MS and MS/MS files together to not mix them. We also have to care of what each file contain and how the user want to study it. For example one file containing MS and MS/MS data can be run with one file containing only MS/MS datas and it has to be process on only its MS datas. I made some graphs trying to develop all possibilities of study we can have.
 
 ![Graph files MSandMSMS](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS.jpg?raw=true)
 
 Here is the workflow for files containing MS and MS/MS in the same files. We can process it file by file, or run it with a lot of files also. We will retrieve the precursors easily because msConvert already prepare them when they are in the same file. We already have these informations and we can't mix MS/MS and their precursor between files because they are all in the same file.
+
+#### For files with only MS or MS/MS datas
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSonly_and_MSMSonly.jpg?raw=true)
 
@@ -271,6 +275,8 @@ Here is the first possibility I explored. When you have one file containing MS d
 MSfile_1.mzML;MSMSfile_1.mzML
 ```
 It is important to put first the MS file, then the MS/MS file ! We will need this CSV file always when we have different files for MS and MS/MS.
+
+#### For MS files containing also MS/MS and files with only MS/MS
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS_MSMSonly.jpg?raw=true)
 
@@ -283,6 +289,8 @@ With it, you can put MS only files or MS and MS/MS files as input for MS files w
 
 Where you can have some problems is when you will want to put as MS/MS file a file containing MS and MS/MS datas. The different workflows are in the following graph :
 
+#### For MS files with only MS and MS/MS files with also MS datas
+
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSonly_MSandMSMS.jpg?raw=true)
 
-It is quite the same workflow as previous ones. There is just a little variable introduce for which the user has to choose to set at "true" or "false". Why have I introduced this variable ? When you have MS and MS/MS datas in one file, the MS/MS datas already have their precursor scan. It is when you convert your raw file into a mzML file that you chose to keep MS and MS/MS datas. So, all the MS/MS scans of this file have their own MS scan already define. The user may want to use an other MS file to run the tool and to study his MS/MS datas. In this case, you have to check the variable "forcedMS1" to "true". That will force the script to use datas from the MS file which match with the MS/MS file (which one contains also MS datas). Like this we will search for MS scans which are in the MS file and we don't pay attention about precursors already defined. 
+It is quite the same workflow as previous ones. There is just a little variable introduce for which the user has to choose to set at "true" or "false". Why have I introduced this variable ? When you have MS and MS/MS datas in one file, the MS/MS datas already have their precursor scan. It is when you convert your raw file into a mzML file that you chose to keep MS and MS/MS datas. So, all the MS/MS scans of this file have their own MS scan already define. The user may want to use an other MS file to run the tool and to study his MS/MS datas. In this case, you have to check the variable "forcedMS1" to "true". That will force the script to use datas from the MS file which match with the MS/MS file (which one contains also MS datas). Like this we will search for MS scans which are in the MS file and we don't pay attention about precursors already defined.
