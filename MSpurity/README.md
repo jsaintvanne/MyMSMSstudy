@@ -36,7 +36,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
 
 ### About the peak 166.08 of file `STD_MIX1`
 <details><summary>
-LET ME SEE THIS PROBLEM
+Let me see this problem
 </summary>
 
 #### Problem
@@ -268,16 +268,6 @@ Now, we can process directly on Galaxy to obtain the results. We also can select
 After contacting Thomas, we are convinced that some changes have to be made on msPurity and their Galaxy wrappers.
 The first change concern the inputs. Thomas just needed files containing MS and MS/MS in the same file and can run the tool with them. But a lot of chimists can't do that. They start with a MS run then they run a second one for MS/MS. So they obtain 2 files : one with MS datas and one else with MS/MS data.
 
-#### For files containing MS and MS/MS
-##### Development
-This modification is the harder. Where we don't really need file names, now we have to match MS and MS/MS files together to not mix them. We also have to care of what each file contain and how the user want to study it. For example one file containing MS and MS/MS data can be run with one file containing only MS/MS datas and it has to be process on only its MS datas. I made some graphs trying to develop all possibilities of study we can have.
-
-![Graph files MSandMSMS](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS.jpg?raw=true)
-
-Here is the workflow for files containing MS and MS/MS in the same files. We can process it file by file, or run it with a lot of files also. We will retrieve the precursors easily because msConvert already prepare them when they are in the same file. We already have these informations and we can't mix MS/MS and their precursor between files because they are all in the same file.
-
-##### Checking if it works
-
 For each test, parameters will be the following :
 
 ```R
@@ -307,6 +297,18 @@ Parameters:
  binSize: 0.25
  maxFeatures: 50
 ```
+
+#### For files containing MS and MS/MS
+<details><summary>Develop</summary>
+
+##### Development
+This modification is the harder. Where we don't really need file names, now we have to match MS and MS/MS files together to not mix them. We also have to care of what each file contain and how the user want to study it. For example one file containing MS and MS/MS data can be run with one file containing only MS/MS datas and it has to be process on only its MS datas. I made some graphs trying to develop all possibilities of study we can have.
+
+![Graph files MSandMSMS](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS.jpg?raw=true)
+
+Here is the workflow for files containing MS and MS/MS in the same files. We can process it file by file, or run it with a lot of files also. We will retrieve the precursors easily because msConvert already prepare them when they are in the same file. We already have these informations and we can't mix MS/MS and their precursor between files because they are all in the same file.
+
+##### Checking if it works
 
 ###### STD_MIX 1
 Test with `STD_MIX1` solo :
@@ -387,7 +389,11 @@ Test with `Boldenone_yann` :
 
 So, this tool looks working good with this kind of files. I just have to add the verification of rows in fileMatch.
 
+</details>
+
 #### For files with only MS or MS/MS datas
+<details><summary>Develop</summary>
+
 ##### Development
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSonly_and_MSMSonly.jpg?raw=true)
@@ -475,7 +481,11 @@ Test `Boldenone_yann` :
 
 ```
 
+</details>
+
 #### For MS files containing also MS/MS and files with only MS/MS
+<details><summary>Develop</summary>
+
 ##### Development
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS_MSMSonly.jpg?raw=true)
@@ -569,7 +579,11 @@ Test `Boldenone_yann` :
 
 ```
 
+</details>
+
 #### For MS files with only MS and MS/MS files with also MS datas
+<details><summary>Develop</summary>
+
 Where you can have some problems is when you will want to put as MS/MS file a file containing MS and MS/MS datas. The different workflows are in the following graph :
 ##### Development
 
@@ -656,3 +670,5 @@ Test `Boldenone_yann` :
 ```R
 
 ```
+
+</details>
