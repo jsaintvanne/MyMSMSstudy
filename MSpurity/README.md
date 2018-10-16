@@ -35,9 +35,14 @@ The workflow is the following :
 I'm trying to use this package on a local Galaxy. It looks that works but some problems persist :
 
 ### About the peak 166.08 of file `STD_MIX1`
+<details><summary>
+LET ME SEE THIS PROBLEM
+</summary>
+
 #### Problem
 
 - with `readMSData` we can find 2 MS2 spectra with a precursorMZ of 166.08 and a precursorRT around 510 seconds. There is no MS1 spectra with a peak at 166.08 cause the peakpicking is not done yet (raw_data@featureData@data column precursorMZ).
+
 ```R
 > raw_data@featureData@data[grep("^166.08",raw_data@featureData@data[grep("^2",raw_data@featureData@data[,"msLevel"],ignore.case=FALSE),"precursorMZ"],ignore.case=FALSE),]
              fileIdx spIdx centroided smoothed seqNum acquisitionNum msLevel
@@ -91,7 +96,7 @@ I'm trying to use this package on a local Galaxy. It looks that works but some p
   rt	     rtmin	 rtmax	        npeaks   .	   peakidx
   511.395444   508.63257   579.291096     3       1    c(1471, 1669, 2313)
 ```
-- with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT is around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ??
+- with `assess-purity` I can also find peaks with MZ = 166.08 (lines 954 and 919 on tsv file). However, their RT are around 1000 seconds... How is it possible whereas we saw 2 MS2 spectra with precursorMZ at 166.08 and precursorRT around 500 ??
 ```R
 > pa@puritydf[grep("^166.08",pa@puritydf[,"precursorMZ"],ignore.case=FALSE),]
       pid fileid seqNum precursorIntensity precursorMZ precursorRT
@@ -254,19 +259,136 @@ Num Peaks: 36
 ```
 Now, we can process directly on Galaxy to obtain the results. We also can select the interesting peak like just before and send it on the MetFrag website to analyse it.
 
+</p>
+
+</details>
+
 ***
 ## Development
 After contacting Thomas, we are convinced that some changes have to be made on msPurity and their Galaxy wrappers.
 The first change concern the inputs. Thomas just needed files containing MS and MS/MS in the same file and can run the tool with them. But a lot of chimists can't do that. They start with a MS run then they run a second one for MS/MS. So they obtain 2 files : one with MS datas and one else with MS/MS data.
 
 #### For files containing MS and MS/MS
+##### Development
 This modification is the harder. Where we don't really need file names, now we have to match MS and MS/MS files together to not mix them. We also have to care of what each file contain and how the user want to study it. For example one file containing MS and MS/MS data can be run with one file containing only MS/MS datas and it has to be process on only its MS datas. I made some graphs trying to develop all possibilities of study we can have.
 
 ![Graph files MSandMSMS](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS.jpg?raw=true)
 
 Here is the workflow for files containing MS and MS/MS in the same files. We can process it file by file, or run it with a lot of files also. We will retrieve the precursors easily because msConvert already prepare them when they are in the same file. We already have these informations and we can't mix MS/MS and their precursor between files because they are all in the same file.
 
+##### Checking if it works
+
+For each test, parameters will be the following :
+
+```R
+> paramFindChromPeaks
+Object of class:  CentWaveParam
+Parameters:
+ ppm: 25
+ peakwidth: 5, 50
+ snthresh: 10
+ prefilter: 3, 100
+ mzCenterFun: wMean
+ integrate: 1
+ mzdiff: -0.001
+ fitgauss: FALSE
+ noise: 0
+ verboseColumns: FALSE
+ roiList length: 0
+ firstBaselineCheck TRUE
+ roiScales length: 0
+> paramGroupChromPeaks
+Object of class:  PeakDensityParam
+Parameters:
+ sampleGroups: numeric of length 1
+ bw: 30
+ minFraction: 0.5
+ minSamples: 1
+ binSize: 0.25
+ maxFeatures: 50
+```
+
+###### STD_MIX 1
+Test with `STD_MIX1` solo :
+
+```R
+> filepathsMS2
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa<-purityA(filepathsMS2)
+...
+...
+> nrow(pa@puritydf)
+[1] 4894
+> pa@fileList
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileListMS1
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileMatch
+                                                         MS1
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+                                                         MS2
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
+
+Time range: 121.8-1435 seconds (2-23.9 minutes)
+Mass range: 78.0343-381.337 m/z
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 6017
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.188 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset)
+...
+...
+> paf4f@f4f_link_type
+[1] "individual"
+> nrow(paf4f@grped_df)
+[1] 38
+> paf4f@fileMatch
+                                                         MS1
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+                                                         MS2
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+
+TODO : add a correction when you have the same 2 rows in fileMatch and delete it !
+
+###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` :
+
+```R
+
+```
+
+###### Mix Laberca
+Test with `Mix_Laberca` (006_deux) :
+
+```R
+
+```
+
+###### Boldenone Yann
+Test with `Boldenone_yann` :
+
+```R
+
+```
+
+So, this tool looks working good with this kind of files. I just have to add the verification of rows in fileMatch.
+
 #### For files with only MS or MS/MS datas
+##### Development
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSonly_and_MSMSonly.jpg?raw=true)
 
@@ -275,8 +397,86 @@ Here is the first possibility I explored. When you have one file containing MS d
 MSfile_1.mzML;MSMSfile_1.mzML
 ```
 It is important to put first the MS file, then the MS/MS file ! We will need this CSV file always when we have different files for MS and MS/MS.
+##### Checking if it works
+
+###### STD_MIX 1
+Test with `STD_MIX1` with only MS or only MS/MS :
+
+```R
+> filepathsMS1
+[1] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+> filepathsMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+> CSVfile
+[1] "./test-data/CSVfile_STD_MIX1_MSonly_with_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 4894
+> pa@fileList
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+> pa@fileListMS1
+[1] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+> pa@fileMatch
+                                   MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
+
+Time range: 121.8-1435 seconds (2-23.9 minutes)
+Mass range: 78.0343-381.337 m/z
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 1123
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.188 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 4
+> paf4f@fileMatch
+                                   MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+```
+It's strange that we obtain only 4 matches...!
+
+###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` with only MS or only MS/MS :
+
+```R
+
+```
+
+###### Mix Laberca
+Test with `Mix_Laberca` (006+006_deux) :
+
+```R
+
+```
+
+###### Boldenone Yann
+Test `Boldenone_yann` :
+
+```R
+
+```
 
 #### For MS files containing also MS/MS and files with only MS/MS
+##### Development
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSandMSMS_MSMSonly.jpg?raw=true)
 
@@ -285,12 +485,174 @@ This third graph shows the workflow when we have a file for MS datas which conta
 raw_data <- MSnbase::readMSData(files=fileToLoad, pdata = new("NAnnotatedDataFrame", pd), mode="onDisk")
 ms1 <- raw_data@featureData@data[raw_data@featureData@data$msLevel==1,]$seqNum
 ```
+
+
 With it, you can put MS only files or MS and MS/MS files as input for MS files with no problems.
 
-Where you can have some problems is when you will want to put as MS/MS file a file containing MS and MS/MS datas. The different workflows are in the following graph :
+
+##### Checking if it works
+
+###### STD_MIX 1
+Test with `STD_MIX1` with MS and MS/MS for MS and only MS/MS for MS/MS :
+
+```R
+> filepathsMS1
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> filepathsMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+> CSVfile
+[1] "./test-data/CSVfile_STD_MIX1_MSandMSMS_withMSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 4894
+> pa@fileList
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+> pa@fileListMS1
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileMatch
+                                       MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
+
+Time range: 121.8-1435 seconds (2-23.9 minutes)
+Mass range: 78.0343-381.337 m/z
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 6017
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.188 MB
+> xset@filepaths
+[1] "/home/fr2424/sib/jsaintvanne/test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 39
+> paf4f@fileMatch
+                                       MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+```
+
+###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
+
+```R
+
+```
+
+###### Mix Laberca
+Test with `Mix_Laberca` (006_deux+006) :
+
+```R
+
+```
+
+###### Boldenone Yann
+Test `Boldenone_yann` :
+
+```R
+
+```
 
 #### For MS files with only MS and MS/MS files with also MS datas
+Where you can have some problems is when you will want to put as MS/MS file a file containing MS and MS/MS datas. The different workflows are in the following graph :
+##### Development
 
 ![Graph files MSonly and MSMSonly](https://github.com/jsaintvanne/MyMSMSstudy/blob/develop/MSpurity/graph_file_MSonly_MSandMSMS.jpg?raw=true)
 
 It is quite the same workflow as previous ones. There is just a little variable introduce for which the user has to choose to set at "true" or "false". Why have I introduced this variable ? When you have MS and MS/MS datas in one file, the MS/MS datas already have their precursor scan. It is when you convert your raw file into a mzML file that you chose to keep MS and MS/MS datas. So, all the MS/MS scans of this file have their own MS scan already define. The user may want to use an other MS file to run the tool and to study his MS/MS datas. In this case, you have to check the variable "forcedMS1" to "true". That will force the script to use datas from the MS file which match with the MS/MS file (which one contains also MS datas). Like this we will search for MS scans which are in the MS file and we don't pay attention about precursors already defined.
+##### Checking if it works
+
+###### STD_MIX 1
+Test with `STD_MIX1` with MS only for MS and MS and MS/MS for MS/MS :
+
+```R
+> filepathsMS1
+[1] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+> filepathsMS2
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> CSVfile
+[1] "./test-data/MS1+2/CSVfile_MSonly_MSandMSMS.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 4894
+> pa@fileList
+                    STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+"./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileListMS1
+                  STD_MIX1_60stepped_1E5_Top5_MS1.mzML
+"./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+> pa@fileMatch
+                                   MS1                                      MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
+
+Time range: 121.8-1435 seconds (2-23.9 minutes)
+Mass range: 78.0343-381.337 m/z
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 6017
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.188 MB
+> xset@filepaths
+[1] "/home/fr2424/sib/jsaintvanne/test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 34
+> paf4f@fileMatch
+                                   MS1                                      MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+
+###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
+
+```R
+
+```
+
+###### Mix Laberca
+Test with `Mix_Laberca` (006_deux+006) :
+
+```R
+
+```
+
+###### Boldenone Yann
+Test `Boldenone_yann` :
+
+```R
+
+```
