@@ -369,7 +369,68 @@ Memory usage: 0.187 MB
 Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` :
 
 ```R
+> filepathsMS2
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa<-purityA(filepathsMS2)
+...
+...
+> nrow(pa@puritydf)
+[1] 14828
+> pa@fileListMS1
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileListMS2
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileMatch
+                                                         MS1
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 ./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
+3 ./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
+                                                         MS2
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 ./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
+3 ./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 3 samples
 
+Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Mass range: 78.0343-540.5056 m/z
+Peaks: 226 (about 75 per sample)
+Peak Groups: 23
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 6086
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.505 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset)
+...
+...
+> paf4f@f4f_link_type
+[1] "individual"
+> nrow(paf4f@grped_df)
+[1] 50
+> paf4f@fileMatch
+                                                         MS1
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 ./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
+3 ./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
+                                                         MS2
+1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 ./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
+3 ./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
 
 ###### Mix Laberca
@@ -465,7 +526,66 @@ It's strange that we obtain only 4 matches...!
 Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` with only MS or only MS/MS :
 
 ```R
+> filepathsMS1
+[1] "./test-data/MS1/STD_MIX3_60stepped_1E5_Top5_MS1.mzML"
+[2] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+[3] "./test-data/MS1/STD_MIX2_60stepped_1E5_Top5_MS1.mzML"
+> filepathsMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+[2] "./test-data/MS2/STD_MIX3_60stepped_1E5_Top5_MS2.mzML"
+[3] "./test-data/MS2/STD_MIX2_60stepped_1E5_Top5_MS2.mzML"
+> CSVfile
+[1] "./test-data/CSVfile_STD_MIX1-2-3_MSonly_with_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 14828
+> pa@fileListMS1
+[1] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+[2] "./test-data/MS1/STD_MIX2_60stepped_1E5_Top5_MS1.mzML"
+[3] "./test-data/MS1/STD_MIX3_60stepped_1E5_Top5_MS1.mzML"
+> pa@fileListMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+[2] "./test-data/MS2/STD_MIX2_60stepped_1E5_Top5_MS2.mzML"
+[3] "./test-data/MS2/STD_MIX3_60stepped_1E5_Top5_MS2.mzML"
+> pa@fileMatch
+                                   MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 3 samples
 
+Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Mass range: 78.0343-540.5056 m/z
+Peaks: 226 (about 75 per sample)
+Peak Groups: 23
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 1123
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.505 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 9
+> paf4f@fileMatch
+                                   MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
 ```
 
 ###### Mix Laberca
@@ -562,7 +682,66 @@ Memory usage: 0.187 MB
 Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
 
 ```R
+> filepathsMS1
+[1] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+> filepathsMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+[2] "./test-data/MS2/STD_MIX3_60stepped_1E5_Top5_MS2.mzML"
+[3] "./test-data/MS2/STD_MIX2_60stepped_1E5_Top5_MS2.mzML"
+> CSVfile
+[1] "./test-data/CSVfile_STD_MIX1-2-3_MSonly_with_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 14828
+> pa@fileListMS1
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileListMS2
+[1] "./test-data/MS2/STD_MIX1_60stepped_1E5_Top5_MS2.mzML"
+[2] "./test-data/MS2/STD_MIX2_60stepped_1E5_Top5_MS2.mzML"
+[3] "./test-data/MS2/STD_MIX3_60stepped_1E5_Top5_MS2.mzML"
+> pa@fileMatch
+                                       MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 3 samples
 
+Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Mass range: 78.0343-540.5056 m/z
+Peaks: 226 (about 75 per sample)
+Peak Groups: 23
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 6086
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.505 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 42
+> paf4f@fileMatch
+                                       MS1                                  MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
 ```
 
 ###### Mix Laberca
@@ -652,7 +831,66 @@ Memory usage: 0.187 MB
 Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
 
 ```R
+> filepathsMS1
+[1] "./test-data/MS1/STD_MIX2_60stepped_1E5_Top5_MS1.mzML"
+[2] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+[3] "./test-data/MS1/STD_MIX3_60stepped_1E5_Top5_MS1.mzML"
+> filepathsMS2
+[1] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+> CSVfile
+[1] "./test-data/CSVfile_STD_MIX1-2-3_MSonly_with_MSandMSMS.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 14828
+> pa@fileListMS1
+[1] "./test-data/MS1/STD_MIX1_60stepped_1E5_Top5_MS1.mzML"
+[2] "./test-data/MS1/STD_MIX2_60stepped_1E5_Top5_MS1.mzML"
+[3] "./test-data/MS1/STD_MIX3_60stepped_1E5_Top5_MS1.mzML"
+> pa@fileListMS2
+[1] "./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML"
+[2] "./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML"
+[3] "./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML"
+> pa@fileMatch
+                                   MS1                                      MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 3 samples
 
+Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Mass range: 78.0343-540.5056 m/z
+Peaks: 226 (about 75 per sample)
+Peak Groups: 23
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 1123
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.505 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 8
+> paf4f@fileMatch
+                                   MS1                                      MS2
+1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
+2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
+3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
 
 ###### Mix Laberca
