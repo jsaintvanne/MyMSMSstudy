@@ -434,10 +434,57 @@ Memory usage: 0.505 MB
 ```
 
 ###### Mix Laberca
-Test with `Mix_Laberca` (006_deux) :
+Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good, here is the MS1+MS2 file) :
 
 ```R
+> filepathsMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> pa<-purityA(filepathsMS2)
+...
+...
+> nrow(pa@puritydf)
+[1] 9634
+> pa@fileListMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> pa@fileListMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> pa@fileMatch
+                                                     MS1
+1 ./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML
+                                                     MS2
+1 ./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.6-1318.1 seconds (0-22 minutes)
+Mass range: 65.0134-973.4294 m/z
+Peaks: 12928 (about 12928 per sample)
+Peak Groups: 2955
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 10902
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.76 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset)
+...
+...
+> paf4f@f4f_link_type
+[1] "individual"
+> nrow(paf4f@grped_df)
+[1] 7309
+> paf4f@fileMatch
+                                                     MS1
+1 ./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML
+                                                     MS2
+1 ./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML
 ```
 
 ###### Boldenone Yann
@@ -636,10 +683,57 @@ Memory usage: 0.505 MB
 ```
 
 ###### Mix Laberca
-Test with `Mix_Laberca` (006+006_deux) :
+Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good) :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1-1.mzML"
+> filepathsMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS2.mzML"
+> CSVfile
+[1] "./test-data/Mix22_STD_Laberca/CSVfile_MSonly_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9634
+> pa@fileListMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1-1.mzML"
+> pa@fileListMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS2.mzML"
+> pa@fileMatch
+                     MS1                  MS2
+1 Mix_Laberca_MS1-1.mzML Mix_Laberca_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 41.3-1284 seconds (0.7-21.4 minutes)
+Mass range: 96.922-900.6386 m/z
+Peaks: 36 (about 36 per sample)
+Peak Groups: 33
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 2259
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.336 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 15
+> paf4f@fileMatch
+                     MS1                  MS2
+1 Mix_Laberca_MS1-1.mzML Mix_Laberca_MS2.mzML
 ```
 
 ###### Boldenone Yann
@@ -839,10 +933,57 @@ Memory usage: 0.505 MB
 ```
 
 ###### Mix Laberca
-Test with `Mix_Laberca` (006_deux+006) :
+Test with `Mix_Laberca` (careful maybe the MS1only file isn't really good, here is the MS1+MS2 file) :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> filepathsMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS2.mzML"
+> CSVfile
+[1] "./test-data/Mix22_STD_Laberca/CSVfile_MSandMSMS_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9634
+> pa@fileListMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> pa@fileListMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS2.mzML"
+> pa@fileMatch
+                       MS1                  MS2
+1 Mix_Laberca_MS1_MS2.mzML Mix_Laberca_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.6-1318.1 seconds (0-22 minutes)
+Mass range: 65.0134-973.4294 m/z
+Peaks: 12928 (about 12928 per sample)
+Peak Groups: 2955
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 10902
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.76 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 928
+> paf4f@fileMatch
+                       MS1                  MS2
+1 Mix_Laberca_MS1_MS2.mzML Mix_Laberca_MS2.mzML
 ```
 
 ###### Boldenone Yann
@@ -1035,10 +1176,51 @@ Memory usage: 0.505 MB
 ```
 
 ###### Mix Laberca
-Test with `Mix_Laberca` (006_deux+006) :
+Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good) :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1-1.mzML"
+> filepathsMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> CSVfile
+[1] "./test-data/Mix22_STD_Laberca/CSVfile_MSonly_MSandMSMS.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9634
+> pa@fileListMS1
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1-1.mzML"
+> pa@fileListMS2
+[1] "./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML"
+> pa@fileMatch
+                     MS1                      MS2
+1 Mix_Laberca_MS1-1.mzML Mix_Laberca_MS1_MS2.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 41.3-1284 seconds (0.7-21.4 minutes)
+Mass range: 96.922-900.6386 m/z
+Peaks: 36 (about 36 per sample)
+Peak Groups: 33
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 2259
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 0.336 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> "0 peaks..."
 ```
 
 ###### Boldenone Yann
