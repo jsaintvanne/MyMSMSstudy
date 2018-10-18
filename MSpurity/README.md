@@ -275,7 +275,7 @@ I will present each possibility and then testing them with different datasets. F
 Object of class:  CentWaveParam
 Parameters:
  ppm: 25
- peakwidth: 5, 30
+ peakwidth: 5, 50
  snthresh: 10
  prefilter: 3, 100
  mzCenterFun: wMean
@@ -444,7 +444,54 @@ Test with `Mix_Laberca` (006_deux) :
 Test with `Boldenone_yann` :
 
 ```R
+> filepathsMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> pa<-purityA(filepathsMS2)
+...
+...
+> nrow(pa@puritydf)
+[1] 9201
+> pa@fileListMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> pa@fileListMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> pa@fileMatch
+                                                       MS1
+1 ./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML
+                                                       MS2
+1 ./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.7-1318.8 seconds (0-22 minutes)
+Mass range: 65.02-973.5861 m/z
+Peaks: 9776 (about 9776 per sample)
+Peak Groups: 1497
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 10245
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.26 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset)
+...
+...
+> paf4f@f4f_link_type
+[1] "individual"
+> nrow(paf4f@grped_df)
+[1] 4530
+> paf4f@fileMatch
+                                                       MS1
+1 ./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML
+                                                       MS2
+1 ./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML
 ```
 
 So, this tool looks working good with this kind of files. I just have to add the verification of rows in fileMatch.
@@ -599,7 +646,54 @@ Test with `Mix_Laberca` (006+006_deux) :
 Test `Boldenone_yann` :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSonly.mzML"
+> filepathsMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSMSonly.mzML"
+> CSVfile
+[1] "./test-data/Boldenone_yann/CSV_MSonly_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9201
+> pa@fileListMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSonly.mzML"
+> pa@fileListMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSMSonly.mzML"
+> pa@fileMatch
+                         MS1                          MS2
+1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSMSonly.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.7-1318.8 seconds (0-22 minutes)
+Mass range: 65.02-973.5861 m/z
+Peaks: 9776 (about 9776 per sample)
+Peak Groups: 1497
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 1044
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.26 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 97
+> paf4f@fileMatch
+                         MS1                          MS2
+1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSMSonly.mzML
 ```
 
 </details>
@@ -755,7 +849,54 @@ Test with `Mix_Laberca` (006_deux+006) :
 Test `Boldenone_yann` :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> filepathsMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSMSonly.mzML"
+> CSVfile
+[1] "./test-data/Boldenone_yann/CSV_MSandMSMS_MSMSonly.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9201
+> pa@fileListMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> pa@fileListMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSMSonly.mzML"
+> pa@fileMatch
+                            MS1                          MS2
+1 Boldenone_yann_MSandMSMS.mzML Boldenone_yann_MSMSonly.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.7-1318.8 seconds (0-22 minutes)
+Mass range: 65.02-973.5861 m/z
+Peaks: 9776 (about 9776 per sample)
+Peak Groups: 1497
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 10245
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.26 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 693
+> paf4f@fileMatch
+                            MS1                          MS2
+1 Boldenone_yann_MSandMSMS.mzML Boldenone_yann_MSMSonly.mzML
 ```
 
 </details>
@@ -904,7 +1045,54 @@ Test with `Mix_Laberca` (006_deux+006) :
 Test `Boldenone_yann` :
 
 ```R
+> filepathsMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSonly.mzML"
+> filepathsMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> CSVfile
+[1] "./test-data/Boldenone_yann/CSV_MSonly_MSandMSMS.csv"
+> pa<-purityA(filepathsMS2=filepathsMS2,filepathsMS1=filepathsMS1,CSVfile=CSVfile)
+...
+...
+> nrow(pa@puritydf)
+[1] 9201
+> pa@fileListMS1
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSonly.mzML"
+> pa@fileListMS2
+[1] "./test-data/Boldenone_yann/Boldenone_yann_MSandMSMS.mzML"
+> pa@fileMatch
+                         MS1                           MS2
+1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSandMSMS.mzML
+```
+```R
+> xset
+An "xcmsSet" object with 1 samples
 
+Time range: 1.7-1318.8 seconds (0-22 minutes)
+Mass range: 65.02-973.5861 m/z
+Peaks: 9776 (about 9776 per sample)
+Peak Groups: 1497
+Sample classes: .
+
+Feature detection:
+ o Peak picking performed on MS1.
+ o Scan range limited to  1 - 1044
+Profile settings: method = bin
+                  step = 0.1
+
+Memory usage: 1.26 MB
+> pa
+[1] "purityA object for assessing precursor purity for MS/MS spectra"
+> paf4f<-frag4feature(pa,xset,use_group=TRUE)
+...
+...
+> paf4f@f4f_link_type
+[1] "group"
+> nrow(paf4f@grped_df)
+[1] 105
+> paf4f@fileMatch
+                         MS1                           MS2
+1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSandMSMS.mzML
 ```
 
 </details>
