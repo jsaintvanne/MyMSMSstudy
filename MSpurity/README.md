@@ -312,6 +312,8 @@ Here is the workflow for files containing MS and MS/MS in the same files. We can
 ##### Testing
 
 ###### STD_MIX 1
+<details><summary>View results</summary>
+
 Test with `STD_MIX1` solo :
 
 ```R
@@ -338,8 +340,8 @@ An "xcmsSet" object with 1 samples
 
 Time range: 121.8-1435 seconds (2-23.9 minutes)
 Mass range: 78.0343-381.337 m/z
-Peaks: 78 (about 78 per sample)
-Peak Groups: 57
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
 Sample classes: .
 
 Feature detection:
@@ -348,7 +350,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.187 MB
+Memory usage: 0.188 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset)
@@ -357,15 +359,18 @@ Memory usage: 0.187 MB
 > paf4f@f4f_link_type
 [1] "individual"
 > nrow(paf4f@grped_df)
-[1] 36
+[1] 38
 > paf4f@fileMatch
                                                          MS1
 1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
                                                          MS2
 1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
+</details>
 
 ###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+<details><summary>View results</summary>
+
 Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` :
 
 ```R
@@ -400,10 +405,10 @@ Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` :
 > xset
 An "xcmsSet" object with 3 samples
 
-Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Time range: 121.8-1438.5 seconds (2-24 minutes)
 Mass range: 78.0343-540.5056 m/z
-Peaks: 226 (about 75 per sample)
-Peak Groups: 23
+Peaks: 244 (about 81 per sample)
+Peak Groups: 28
 Sample classes: .
 
 Feature detection:
@@ -412,7 +417,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.505 MB
+Memory usage: 0.508 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset)
@@ -421,7 +426,7 @@ Memory usage: 0.505 MB
 > paf4f@f4f_link_type
 [1] "individual"
 > nrow(paf4f@grped_df)
-[1] 50
+[1] 51
 > paf4f@fileMatch
                                                          MS1
 1 ./test-data/MS1+2/STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
@@ -432,8 +437,11 @@ Memory usage: 0.505 MB
 2 ./test-data/MS1+2/STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
 3 ./test-data/MS1+2/STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
+</details>
 
 ###### Mix Laberca
+<details><summary>View results</summary>
+
 Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good, here is the MS1+MS2 file) :
 
 ```R
@@ -486,8 +494,11 @@ Memory usage: 1.76 MB
                                                      MS2
 1 ./test-data/Mix22_STD_Laberca/Mix_Laberca_MS1_MS2.mzML
 ```
+</details>
 
 ###### Boldenone Yann
+<details><summary>View results</summary>
+
 Test with `Boldenone_yann` :
 
 ```R
@@ -544,6 +555,7 @@ Memory usage: 1.26 MB
 So, this tool looks working good with this kind of files. I just have to add the verification of rows in fileMatch.
 
 </details>
+</details>
 
 #### For files with only MS or MS/MS datas
 This modification is the harder. Where we didn't really need file names, now we have to match MS and MS/MS files together to not mix them. We also have to take care of what each file contain and how the user want to study it. For example one file containing MS and MS/MS data can be run with one file containing only MS/MS datas and it has to be process on only its MS datas. I made some graphs trying to develop all possibilities of study we can have with different msLevel of inputs.
@@ -562,6 +574,8 @@ It is important to put first the MS file, then the MS/MS file ! We will need thi
 ##### Testing
 
 ###### STD_MIX 1
+<details><summary>View results</summary>
+
 Test with `STD_MIX1` with only MS or only MS/MS :
 
 ```R
@@ -590,8 +604,8 @@ An "xcmsSet" object with 1 samples
 
 Time range: 121.8-1435 seconds (2-23.9 minutes)
 Mass range: 78.0343-381.337 m/z
-Peaks: 78 (about 78 per sample)
-Peak Groups: 57
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
 Sample classes: .
 
 Feature detection:
@@ -600,7 +614,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.187 MB
+Memory usage: 0.188 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -615,8 +629,11 @@ Memory usage: 0.187 MB
 1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
 ```
 It's strange that we obtain only 4 matches...!
+</details>
 
 ###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+<details><summary>View results</summary>
+
 Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` with only MS or only MS/MS :
 
 ```R
@@ -653,10 +670,10 @@ Test with `STD_MIX1`, `STD_MIX2` and `STD_MIX3` with only MS or only MS/MS :
 > xset
 An "xcmsSet" object with 3 samples
 
-Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Time range: 121.8-1438.5 seconds (2-24 minutes)
 Mass range: 78.0343-540.5056 m/z
-Peaks: 226 (about 75 per sample)
-Peak Groups: 23
+Peaks: 244 (about 81 per sample)
+Peak Groups: 28
 Sample classes: .
 
 Feature detection:
@@ -665,7 +682,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.505 MB
+Memory usage: 0.508 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -674,15 +691,17 @@ Memory usage: 0.505 MB
 > paf4f@f4f_link_type
 [1] "group"
 > nrow(paf4f@grped_df)
-[1] 9
+[1] 10
 > paf4f@fileMatch
                                    MS1                                  MS2
 1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
 2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
 3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
 ```
-
+</details>
 ###### Mix Laberca
+<details><summary>View results</summary>
+
 Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good) :
 
 ```R
@@ -735,8 +754,11 @@ Memory usage: 0.336 MB
                      MS1                  MS2
 1 Mix_Laberca_MS1-1.mzML Mix_Laberca_MS2.mzML
 ```
+</details>
 
 ###### Boldenone Yann
+<details><summary>View results</summary>
+
 Test `Boldenone_yann` :
 
 ```R
@@ -789,6 +811,7 @@ Memory usage: 1.26 MB
                          MS1                          MS2
 1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSMSonly.mzML
 ```
+</details>
 
 </details>
 
@@ -813,6 +836,8 @@ With it, you can put MS only files or MS and MS/MS files as input for MS files w
 ##### Testing
 
 ###### STD_MIX 1
+<details><summary>View results</summary>
+
 Test with `STD_MIX1` with MS and MS/MS for MS and only MS/MS for MS/MS :
 
 ```R
@@ -841,8 +866,8 @@ An "xcmsSet" object with 1 samples
 
 Time range: 121.8-1435 seconds (2-23.9 minutes)
 Mass range: 78.0343-381.337 m/z
-Peaks: 78 (about 78 per sample)
-Peak Groups: 57
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
 Sample classes: .
 
 Feature detection:
@@ -851,7 +876,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.187 MB
+Memory usage: 0.188 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -860,13 +885,16 @@ Memory usage: 0.187 MB
 > paf4f@f4f_link_type
 [1] "group"
 > nrow(paf4f@grped_df)
-[1] 38
+[1] 39
 > paf4f@fileMatch
                                        MS1                                  MS2
 1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
 ```
+</details>
 
 ###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+<details><summary>View results</summary>
+
 Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
 
 ```R
@@ -903,10 +931,10 @@ Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and on
 > xset
 An "xcmsSet" object with 3 samples
 
-Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Time range: 121.8-1438.5 seconds (2-24 minutes)
 Mass range: 78.0343-540.5056 m/z
-Peaks: 226 (about 75 per sample)
-Peak Groups: 23
+Peaks: 244 (about 81 per sample)
+Peak Groups: 28
 Sample classes: .
 
 Feature detection:
@@ -915,7 +943,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.505 MB
+Memory usage: 0.508 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -924,15 +952,18 @@ Memory usage: 0.505 MB
 > paf4f@f4f_link_type
 [1] "group"
 > nrow(paf4f@grped_df)
-[1] 42
+[1] 46
 > paf4f@fileMatch
                                        MS1                                  MS2
 1 STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX1_60stepped_1E5_Top5_MS2.mzML
 2 STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX2_60stepped_1E5_Top5_MS2.mzML
 3 STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML STD_MIX3_60stepped_1E5_Top5_MS2.mzML
 ```
+</details>
 
 ###### Mix Laberca
+<details><summary>View results</summary>
+
 Test with `Mix_Laberca` (careful maybe the MS1only file isn't really good, here is the MS1+MS2 file) :
 
 ```R
@@ -985,8 +1016,11 @@ Memory usage: 1.76 MB
                        MS1                  MS2
 1 Mix_Laberca_MS1_MS2.mzML Mix_Laberca_MS2.mzML
 ```
+</details>
 
 ###### Boldenone Yann
+<details><summary>View results</summary>
+
 Test `Boldenone_yann` :
 
 ```R
@@ -1039,6 +1073,7 @@ Memory usage: 1.26 MB
                             MS1                          MS2
 1 Boldenone_yann_MSandMSMS.mzML Boldenone_yann_MSMSonly.mzML
 ```
+</details>
 
 </details>
 
@@ -1056,6 +1091,8 @@ It is quite the same workflow as previous ones. There is just a little variable 
 ##### Testing
 
 ###### STD_MIX 1
+<details><summary>View results</summary>
+
 Test with `STD_MIX1` with MS only for MS and MS and MS/MS for MS/MS :
 
 ```R
@@ -1084,8 +1121,8 @@ An "xcmsSet" object with 1 samples
 
 Time range: 121.8-1435 seconds (2-23.9 minutes)
 Mass range: 78.0343-381.337 m/z
-Peaks: 78 (about 78 per sample)
-Peak Groups: 57
+Peaks: 86 (about 86 per sample)
+Peak Groups: 62
 Sample classes: .
 
 Feature detection:
@@ -1094,7 +1131,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.187 MB
+Memory usage: 0.188 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -1108,8 +1145,11 @@ Memory usage: 0.187 MB
                                    MS1                                      MS2
 1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
+</details>
 
 ###### STD_MIX 1, STD_MIX 2 and STD_MIX 3
+<details><summary>View results</summary>
+
 Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and only MS/MS for MS/MS :
 
 ```R
@@ -1146,10 +1186,10 @@ Test with `STD_MIX1`, `STD_MIX2`, and `STD_MIX3` with MS and MS/MS for MS and on
 > xset
 An "xcmsSet" object with 3 samples
 
-Time range: 68.7-1438.5 seconds (1.1-24 minutes)
+Time range: 121.8-1438.5 seconds (2-24 minutes)
 Mass range: 78.0343-540.5056 m/z
-Peaks: 226 (about 75 per sample)
-Peak Groups: 23
+Peaks: 244 (about 81 per sample)
+Peak Groups: 28
 Sample classes: .
 
 Feature detection:
@@ -1158,7 +1198,7 @@ Feature detection:
 Profile settings: method = bin
                   step = 0.1
 
-Memory usage: 0.505 MB
+Memory usage: 0.508 MB
 > pa
 [1] "purityA object for assessing precursor purity for MS/MS spectra"
 > paf4f<-frag4feature(pa,xset,use_group=TRUE)
@@ -1167,15 +1207,18 @@ Memory usage: 0.505 MB
 > paf4f@f4f_link_type
 [1] "group"
 > nrow(paf4f@grped_df)
-[1] 8
+[1] 9
 > paf4f@fileMatch
                                    MS1                                      MS2
 1 STD_MIX1_60stepped_1E5_Top5_MS1.mzML STD_MIX1_60stepped_1E5_Top5_MS1_MS2.mzML
 2 STD_MIX2_60stepped_1E5_Top5_MS1.mzML STD_MIX2_60stepped_1E5_Top5_MS1_MS2.mzML
 3 STD_MIX3_60stepped_1E5_Top5_MS1.mzML STD_MIX3_60stepped_1E5_Top5_MS1_MS2.mzML
 ```
+</details>
 
 ###### Mix Laberca
+<details><summary>View results</summary>
+
 Test with `Mix_Laberca` (careful maybe the MS1 file isn't really good) :
 
 ```R
@@ -1222,8 +1265,11 @@ Memory usage: 0.336 MB
 ...
 > "0 peaks..."
 ```
+</details>
 
 ###### Boldenone Yann
+<details><summary>View results</summary>
+
 Test `Boldenone_yann` :
 
 ```R
@@ -1276,5 +1322,6 @@ Memory usage: 1.26 MB
                          MS1                           MS2
 1 Boldenone_yann_MSonly.mzML Boldenone_yann_MSandMSMS.mzML
 ```
+</details>
 
 </details>
